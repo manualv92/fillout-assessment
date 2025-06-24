@@ -13,7 +13,8 @@ const iconMap: Record<string, string> = {
   details: '/icons/details.svg',
   other: '/icons/other.svg',
   ending: '/icons/ending.svg',
-  add: '/icons/plus.svg',
+  plus: '/icons/plus.svg',
+  'plus-circle': '/icons/plus-circle.svg',
   // Agregá más aquí
 };
 
@@ -29,6 +30,7 @@ export default function Icon({ name, size = 16, alt = '', className }: IconProps
       width={size}
       height={size}
       className={className}
+      unoptimized
     />
   );
 }

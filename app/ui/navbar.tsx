@@ -9,52 +9,34 @@ import {
 } from '@dnd-kit/sortable';
 import { useState } from 'react';
 import './navbar.css';
-import { SortableItem } from './sorteableItem';
+import SortableItem from './sorteableItem';
 import Icon from './icon';
+import Divider from './divider';
 
 const navItemsInitial = ['Info', 'Details', 'Other', 'Ending'];
 
-function Divider({
-  onInsert,
-  index,
-  onHoverChange
-}: {
-  onInsert: (index: number) => void;
-  index: number;
-  onHoverChange?: (hovering: boolean, index: number) => void;
-}) {
-  return (
-    <div
-      className="divider-container"
-      onClick={() => onInsert(index)}
-      onMouseEnter={() => onHoverChange?.(true, index)}
-      onMouseLeave={() => onHoverChange?.(false, index)}
-    >
-      <div className="dashed-line" />
-      <div className="plus-button">+</div>
-    </div>
-  );
-}
-
 function AddPageButton({ onAdd }: { onAdd: () => void }) {
   return (
-      <button className="add-page-button" onClick={onAdd}>
-        <Icon name={"add"} />
-        Add page
-      </button>
+    <button className="add-page-button" onClick={onAdd}>
+      <Icon name={"plus"} />
+      Add page
+    </button>
   );
 }
 
 export default function Navbar() {
   const [items, setItems] = useState(navItemsInitial);
   const [hoverDividerIndex, setHoverDividerIndex] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [activeItem, setActiveItem] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   function handleDividerHover(hovering: boolean, index: number) {
-    console.log(`Divider ${index} hovering: ${hovering}`);
     setHoverDividerIndex(hovering ? index : null);
   }
 
   function handleDragEnd(event: any) {
+    setIsDragging(false);
     const { active, over } = event;
     if (active.id !== over?.id) {
       const oldIndex = items.indexOf(active.id);
@@ -67,7 +49,7 @@ export default function Navbar() {
     const newItem = `Item ${items.length + 1}`;
     const updated = [...items.slice(0, index), newItem, ...items.slice(index)];
     setItems(updated);
-     setHoverDividerIndex(null); 
+    setHoverDividerIndex(null);
   }
 
   function handleAddPage() {
@@ -75,8 +57,12 @@ export default function Navbar() {
     setItems((prev) => [...prev, newItem]);
   }
 
+  function handleDragStart() {
+    setIsDragging(true);
+  }
+
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <SortableContext items={items} strategy={horizontalListSortingStrategy}>
         <nav className="navbar">
           {items.map((item, index) => {
@@ -91,12 +77,12 @@ export default function Navbar() {
                     index={index}
                     onInsert={handleInsert}
                     onHoverChange={handleDividerHover}
+                    isDragging={isDragging}
                   />
                 )}
                 <div
-                  className={`sortable-wrapper ${
-                    isLeftOfHover ? 'push-left' : isRightOfHover ? 'push-right' : ''
-                  }`}
+                  className={`sortable-wrapper ${isLeftOfHover ? 'push-left' : isRightOfHover ? 'push-right' : ''
+                    }`}
                 >
                   <SortableItem id={item} />
                 </div>
@@ -104,8 +90,10 @@ export default function Navbar() {
             );
           })}
           {/* Add-page button at the end */}
-          <Divider index={items.length} onInsert={handleInsert} onHoverChange={handleDividerHover} />
-          <AddPageButton onAdd={handleAddPage} />
+          <div className='flex'>
+            <Divider index={items.length} onInsert={handleInsert} onHoverChange={handleDividerHover} isDragging={isDragging} />
+            <AddPageButton onAdd={handleAddPage} />
+          </div>
         </nav>
       </SortableContext>
     </DndContext>

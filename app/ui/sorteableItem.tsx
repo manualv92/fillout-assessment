@@ -2,10 +2,10 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import  Icon  from './icon';
+import Icon from './icon';
 
 
-export function SortableItem({ id }: { id: string }) {
+export default function SortableItem({ id }: { id: string }) {
   const {
     attributes,
     listeners,
@@ -26,8 +26,8 @@ export function SortableItem({ id }: { id: string }) {
       style={style}
       {...attributes}
       {...listeners}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-grab select-none whitespace-nowrap 
-      ${isDragging ? 'bg-gray-300' : 'bg-gray-100'} transition`}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-grab select-none whitespace-nowrap max-h-8
+      ${isDragging ? 'bg-gray-300 z-20' : 'bg-gray-100 z-10'} transition`}
     >
       <Icon name={id} />
       {id}
