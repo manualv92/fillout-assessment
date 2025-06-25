@@ -15,7 +15,12 @@ const iconMap: Record<string, string> = {
   ending: '/icons/ending.svg',
   plus: '/icons/plus.svg',
   'plus-circle': '/icons/plus-circle.svg',
-  // Agregá más aquí
+  flag: '/icons/flag.svg',
+  rename: '/icons/rename.svg',
+  copy: '/icons/copy.svg',
+  duplicate: '/icons/duplicate.svg',
+  trash: '/icons/trash.svg',
+
 };
 
 export default function Icon({ name, size = 16, alt = '', className }: IconProps) {
