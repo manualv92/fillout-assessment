@@ -17,7 +17,7 @@ const navItemsInitial = ['Info', 'Details', 'Other', 'Ending'];
 
 function AddPageButton({ onAdd, className }: { onAdd: () => void; className?: string }) {
   return (
-    <button className={`bg-background border border-border rounded-lg w-[106.7px] flex justify-center items-center gap-1.5 ${className ? ' ' + className : ''}`} onClick={onAdd} style={{ filter: 'drop-shadow(var(--color-shadow))' }}>
+    <button className={`cursor-pointer bg-background border border-border rounded-lg w-[106.7px] flex justify-center items-center gap-1.5 ${className ? ' ' + className : ''}`} onClick={onAdd} style={{ filter: 'drop-shadow(var(--color-shadow))' }}>
       <Icon name={"plus"} />
       <span className='text-sm'>Add page</span>
     </button>

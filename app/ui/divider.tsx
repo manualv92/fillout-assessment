@@ -14,14 +14,15 @@ export default function Divider({
 
   return (
     <div
-      className="divider-container"
+      className="group relative w-5 h-8 flex items-center justify-center"
       onClick={() => onInsert(index)}
       onMouseEnter={() => onHoverChange?.(true, index)}
       onMouseLeave={() => onHoverChange?.(false, index)}
     >
-      <div className="dashed-line" />
+      <div className="w-5 border-t-2 border-dashed border-gray-300 absolute z-0" />
       {!isDragging && (
-        <Icon name="plus-circle" strokeWidth={1.5} className="plus-button fill-background" />
+
+        <Icon name="plus-circle" strokeWidth={1.5} className="transition delay-50 duration-100 ease-in opacity-0 scale-0 flex items-center justify-center cursor-pointer z-10 fill-background hover:opacity-100 hover:scale-100" />
       )}
     </div>
   );

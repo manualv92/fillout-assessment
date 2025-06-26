@@ -55,10 +55,10 @@ export default function SortableItem({
         onContextMenu(e, itemRef.current!);
       }}
 
-      className={`group relative flex items-center h-8 gap-2 px-4 py-2 rounded-lg cursor-pointer select-none whitespace-nowrap transition  text-default-label hover:bg-hover-button
+      className={`group z-20 relative flex items-center h-8 gap-2 px-4 py-2 rounded-lg cursor-pointer select-none whitespace-nowrap transition  text-default-label hover:bg-hover-button
         sortable-wrapper focus:bg-background focus:outline-blueAccent focus:text-primary
         ${isLeftOfHover ? 'push-left' : isRightOfHover ? 'push-right' : ''} 
-        ${isDragging ? 'bg-gray-300 z-20' : 'bg-gray-100 z-10'} 
+        ${isDragging ? 'bg-gray-300' : 'bg-gray-100'} 
         ${isActive ? 'bg-white' : 'bg-default-button'} 
       `}
     >
