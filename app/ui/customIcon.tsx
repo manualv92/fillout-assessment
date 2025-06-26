@@ -9,7 +9,6 @@ import {
   Clipboard,
   Copy as Duplicate,
   Trash2 as Trash,
-  Annoyed as Default
 } from 'lucide-react';
 
 import React, { ComponentProps, JSX } from 'react';
@@ -32,13 +31,12 @@ const iconMap: Record<string, React.ComponentType<ComponentProps<'svg'>>> = {
   rename: PenLine,
   copy: Clipboard,
   duplicate: Duplicate,
-  trash: Trash,
-  default: Default,
-
+  trash: Trash
 };
 
-export default function Icon({ name = 'Default', size = 16, strokeWidth, className = '' }: IconProps) {
+export default function Icon({ name, size = 16, strokeWidth, className = '' }: IconProps) {
   const LucideIcon = iconMap[name.toLowerCase()];
+  if (!LucideIcon) return null;
 
   return <LucideIcon width={size} height={size} strokeWidth={strokeWidth} className={className} />;
 }
