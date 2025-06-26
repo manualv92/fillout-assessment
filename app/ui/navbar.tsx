@@ -9,7 +9,7 @@ import {
 import { useEffect, useId, useRef, useState } from 'react';
 import './navbar.css';
 import SortableItem from './sorteableItem';
-import Icon from "./icon";
+import Icon from "./customIcon";
 import Divider from './divider';
 import ContextMenu from './contextMenu';
 

@@ -2,7 +2,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import Icon from './icon';
+import Icon from './customIcon';
 import { useRef } from 'react';
 
 export default function SortableItem({
