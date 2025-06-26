@@ -4,6 +4,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import Icon from './custom-icon';
 import { useRef } from 'react';
+import ContextMenuButton from './context-menu-button';
 
 export default function SortableItem({
   id,
@@ -72,15 +73,11 @@ export default function SortableItem({
       <span className={`text-sm ${isActive ? 'text-primary' : ''}`}>{id}</span>
 
       {isActive && (
-        <button
-          className="ml-2 text-secondary hover:text-black"
+        <ContextMenuButton
           onClick={(e) => {
-            e.stopPropagation();
             onContextButtonClick(e, itemRef.current!);
           }}
-        >
-          ⋮
-        </button>
+        />
       )}
     </div>
   );
