@@ -8,10 +8,10 @@ import {
 } from '@dnd-kit/sortable';
 import { useEffect, useId, useRef, useState } from 'react';
 import './navbar.css';
-import SortableItem from './sorteableItem';
-import Icon from "./customIcon";
+import SortableItem from './sorteable-item';
+import Icon from "./custom-icon";
 import Divider from './divider';
-import ContextMenu from './contextMenu';
+import ContextMenu from './context-menu';
 
 const navItemsInitial = ['Info', 'Details', 'Other', 'Ending'];
 

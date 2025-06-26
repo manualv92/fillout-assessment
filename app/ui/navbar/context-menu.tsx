@@ -1,4 +1,4 @@
-import Icon from "./customIcon";
+import Icon from "./custom-icon";
 
 type ContextMenuProps = {
   x: number;

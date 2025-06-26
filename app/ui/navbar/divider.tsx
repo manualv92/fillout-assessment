@@ -1,4 +1,4 @@
-import Icon from "./customIcon";
+import Icon from "./custom-icon";
 
 export default function Divider({
   onInsert,
