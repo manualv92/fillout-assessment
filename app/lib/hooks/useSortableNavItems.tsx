@@ -21,13 +21,13 @@ export function useSortableNavItems(initialItems: string[]) {
   };
 
   const addItem = (index: number) => {
-    const newItem = `Item ${items.length + 1}`;
+    const newItem = `Page ${items.length + 1}`;
     setItems([...items.slice(0, index), newItem, ...items.slice(index)]);
     setHoverDividerIndex(null)
   };
 
   const appendItem = () => {
-    const newItem = `Item ${items.length + 1}`;
+    const newItem = `Page ${items.length + 1}`;
     setItems([...items, newItem]);
   };
 
