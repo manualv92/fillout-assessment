@@ -38,5 +38,5 @@ export default function Icon({ name, size = 16, strokeWidth, className = '' }: I
   const LucideIcon = iconMap[name.toLowerCase()];
   if (!LucideIcon) return null;
 
-  return <LucideIcon size={size} strokeWidth={strokeWidth} className={className} />;
+  return <LucideIcon width={size} height={size} strokeWidth={strokeWidth} className={className} />;
 }
