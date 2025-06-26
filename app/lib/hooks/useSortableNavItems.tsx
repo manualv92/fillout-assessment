@@ -5,6 +5,7 @@ import { useState } from 'react';
 export function useSortableNavItems(initialItems: string[]) {
   const [items, setItems] = useState(initialItems);
   const [isDragging, setIsDragging] = useState(false);
+  const [hoverDividerIndex, setHoverDividerIndex] = useState<number | null>(null);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -22,6 +23,7 @@ export function useSortableNavItems(initialItems: string[]) {
   const addItem = (index: number) => {
     const newItem = `Item ${items.length + 1}`;
     setItems([...items.slice(0, index), newItem, ...items.slice(index)]);
+    setHoverDividerIndex(null)
   };
 
   const appendItem = () => {
@@ -34,6 +36,8 @@ export function useSortableNavItems(initialItems: string[]) {
     setItems,
     isDragging,
     setIsDragging,
+    hoverDividerIndex,
+    setHoverDividerIndex,
     moveItem,
     addItem,
     appendItem,

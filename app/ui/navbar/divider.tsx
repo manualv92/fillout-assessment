@@ -1,23 +1,24 @@
 import Icon from "./custom-icon";
 
-export default function Divider({
-  onInsert,
-  index,
-  onHoverChange,
-  isDragging
-}: {
-  onInsert: (index: number) => void;
+type DividerProps = {
   index: number;
-  onHoverChange?: (hovering: boolean, index: number) => void;
-  isDragging?: boolean | false;
-}) {
+  isDragging: boolean;
+  onInsert: (index: number) => void;
+  onHoverChange: (hovering: boolean, index: number) => void;
+};
 
+export default function Divider({
+  index,
+  isDragging,
+  onInsert,
+  onHoverChange,
+}: DividerProps) {
   return (
     <div
-      className="group relative w-5 h-8 flex items-center justify-center"
+      onMouseEnter={() => !isDragging && onHoverChange(true, index)}
+      onMouseLeave={() => !isDragging && onHoverChange(false, index)}
       onClick={() => onInsert(index)}
-      onMouseEnter={() => onHoverChange?.(true, index)}
-      onMouseLeave={() => onHoverChange?.(false, index)}
+      className="group relative w-5 h-8 flex items-center justify-center"
     >
       <div className="w-5 border-t-2 border-dashed border-gray-300 absolute z-0" />
       {!isDragging && (

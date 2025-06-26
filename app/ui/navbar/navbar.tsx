@@ -2,7 +2,6 @@
 
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   horizontalListSortingStrategy
 } from '@dnd-kit/sortable';
@@ -25,11 +24,12 @@ export default function Navbar() {
     setIsDragging,
     moveItem,
     addItem,
+    setHoverDividerIndex,
+    hoverDividerIndex,
     appendItem,
     sensors
   } = useSortableNavItems(navItemsInitial);
 
-  const [hoverDividerIndex, setHoverDividerIndex] = useState<number | null>(null);
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
   const { contextMenu, isOpen, open, close } = useContextMenu();
@@ -63,7 +63,10 @@ export default function Navbar() {
                   isLeftOfHover={isLeftOfHover}
                   isRightOfHover={isRightOfHover}
                   isActive={item === activeItem}
-                  onClick={() => setActiveItem(item)}
+                  onClick={() => {
+                    setActiveItem(item);
+                    setHoverDividerIndex(null);
+                  }}
                   onContextMenu={(e, el) => open(item, el)}
                   onContextButtonClick={(e, el) => open(item, el)}
                 />
