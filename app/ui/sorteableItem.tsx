@@ -36,7 +36,8 @@ export default function SortableItem({
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition
+    transition,
+    filter: isActive ? 'drop-shadow(var(--color-shadow))' : ''
   };
 
   return (
@@ -54,21 +55,25 @@ export default function SortableItem({
         onContextMenu(e, itemRef.current!);
       }}
 
-      className={`relative flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer select-none whitespace-nowrap transition 
-        sortable-wrapper ${isLeftOfHover ? 'push-left' : isRightOfHover ? 'push-right' : ''}
+      className={`group relative flex items-center h-8 gap-2 px-4 py-2 rounded-lg cursor-pointer select-none whitespace-nowrap transition  text-default-label hover:bg-hover-button
+        sortable-wrapper focus:bg-background focus:outline-blueAccent focus:text-primary
+        ${isLeftOfHover ? 'push-left' : isRightOfHover ? 'push-right' : ''} 
         ${isDragging ? 'bg-gray-300 z-20' : 'bg-gray-100 z-10'} 
-        ${isActive ? 'font-bold text-black' : 'text-gray-800'}
+        ${isActive ? 'bg-white' : 'bg-default-button'} 
       `}
     >
       <Icon
         name={id}
-        className={`${isActive ? 'text-yellow-500' : 'text-gray-500'}`}
+        className={`
+          ${isActive ? 'text-active-icon' : 'text-default-icon'}
+          group-focus-within:text-active-icon
+        `}
       />
-      <span>{id}</span>
+      <span className={`text-sm ${isActive ? 'text-primary' : ''}`}>{id}</span>
 
       {isActive && (
         <button
-          className="ml-2 text-gray-400 hover:text-black"
+          className="ml-2 text-secondary hover:text-black"
           onClick={(e) => {
             e.stopPropagation();
             onContextButtonClick(e, itemRef.current!);

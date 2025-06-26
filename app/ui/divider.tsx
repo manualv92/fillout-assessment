@@ -11,12 +11,6 @@ export default function Divider({
   onHoverChange?: (hovering: boolean, index: number) => void;
   isDragging?: boolean | false;
 }) {
-//   const handleEnter = () => {
-//     if (!isDragging) onHoverChange?.(true, index);
-//   };
-//   const handleLeave = () => {
-//     if (!isDragging) onHoverChange?.(false, index);
-//   };
 
   return (
     <div
@@ -27,9 +21,8 @@ export default function Divider({
     >
       <div className="dashed-line" />
       {!isDragging && (
-        <Icon name="plus-circle" className="plus-button" />
+        <Icon name="plus-circle" strokeWidth={1.5} className="plus-button fill-background" />
       )}
-      {/* <div className="plus-button"></div> */}
     </div>
   );
 }

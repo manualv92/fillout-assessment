@@ -1,27 +1,25 @@
-'use client';
+"use client"
 
 import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
-  useSortable,
   horizontalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import './navbar.css';
 import SortableItem from './sorteableItem';
-import Icon from './icon';
+import Icon from "./icon";
 import Divider from './divider';
-// import SettingsModal from './settingsMenu';
 import ContextMenu from './contextMenu';
 
 const navItemsInitial = ['Info', 'Details', 'Other', 'Ending'];
 
 function AddPageButton({ onAdd, className }: { onAdd: () => void; className?: string }) {
   return (
-    <button className={`add-page-button${className ? ' ' + className : ''}`} onClick={onAdd}>
+    <button className={`bg-background border border-border rounded-lg w-[106.7px] flex justify-center items-center gap-1.5 ${className ? ' ' + className : ''}`} onClick={onAdd} style={{ filter: 'drop-shadow(var(--color-shadow))' }}>
       <Icon name={"plus"} />
-      Add page
+      <span className='text-sm'>Add page</span>
     </button>
   );
 }
@@ -31,7 +29,6 @@ export default function Navbar() {
   const [hoverDividerIndex, setHoverDividerIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [settingsOpenFor, setSettingsOpenFor] = useState<string | null>(null);
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
@@ -93,23 +90,22 @@ export default function Navbar() {
     setIsDragging(true);
     setContextMenu(null);
   }
-  
-// al abrir el menú
-    useEffect(() => {
-      if (contextMenu) {
-        setTimeout(() => setIsOpen(true), 10); // delay mínimo para permitir animación
-      } else {
-        setIsOpen(false);
-      }
-    }, [contextMenu]);
+
+  useEffect(() => {
+    if (contextMenu) {
+      setTimeout(() => setIsOpen(true), 10); // delay mínimo para permitir animación
+    } else {
+      setIsOpen(false);
+    }
+  }, [contextMenu]);
 
   function openContextMenuAtItem(itemId: string, targetEl: HTMLElement) {
-    
+
     const rect = targetEl.getBoundingClientRect();
     const scrollY = window.scrollY;
 
-    const MENU_HEIGHT = 240; // ajustar según el tamaño real de tu menú
-    const GAP = 6; // espacio visual entre el ítem y el menú
+    const MENU_HEIGHT = 224;
+    const GAP = 6;
 
     setContextMenu({
       x: rect.left,
@@ -118,16 +114,17 @@ export default function Navbar() {
     });
   }
 
+  const id = useId()
+
   return (
-    <DndContext collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext id={id} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
       <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-        <nav className="navbar">
+        <nav className="flex p-3 items-center justify-center bg-body-background">
           {items.map((item, index) => {
             const isRightOfHover = hoverDividerIndex === index;
             const isLeftOfHover = hoverDividerIndex === index + 1;
-
             return (
-              <div key={item + index} className="nav-with-divider">
+              <div key={item + index} className="flex items-center relative">
                 {index > 0 && (
                   <Divider
                     index={index}
@@ -136,10 +133,6 @@ export default function Navbar() {
                     isDragging={isDragging}
                   />
                 )}
-                {/* <div
-                  className={`sortable-wrapper ${isLeftOfHover ? 'push-left' : isRightOfHover ? 'push-right' : ''
-                    }`}
-                > */}
                 <SortableItem
                   id={item}
                   isLeftOfHover={isLeftOfHover}
@@ -147,70 +140,29 @@ export default function Navbar() {
                   isActive={item === activeItem}
                   onClick={() => setActiveItem(item)}
                   onContextMenu={(e, el) => {
-                    // setActiveItem(item);
                     openContextMenuAtItem(item, el);
                   }}
                   onContextButtonClick={(e, el) => {
-                    //setActiveItem(item);
                     openContextMenuAtItem(item, el);
                   }}
                 />
-                {/* </div> */}
               </div>
             );
           })}
-          {/* Add-page button at the end */}
-          <div className='flex'>
+          <div className='flex items-center'>
             <Divider index={items.length} onInsert={handleInsert} onHoverChange={handleDividerHover} isDragging={isDragging} />
-            <AddPageButton onAdd={handleAddPage} className="drop-shadow-[0_25px_25px_#000]"/>
+            <AddPageButton onAdd={handleAddPage} className='h-8' />
           </div>
           {contextMenu && (
-
-
             <ContextMenu
               isOpen={isOpen}
               x={contextMenu.x}
               y={contextMenu.y}
-              // item={contextMenu.item}
               onSelect={(action) => {
-                console.log(`Action "${action}" on ${contextMenu.item}`);
-                setContextMenu(null); // cerrar el menú
+                setContextMenu(null);
               }}
             />
-
           )}
-
-
-
-
-
-
-
-          {/* <ul
-              className="absolute bg-white border border-gray-200 rounded-md shadow-lg w-240px z-50"
-              style={{ top: contextMenu.y, left: contextMenu.x }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {['Set as first Page', 'Rename', 'Copy', 'Duplicate', 'Delete'].map(
-                (action) => (
-                  <li
-                    key={action}
-                    onClick={() => {
-                      console.log(`Action "${action}" on ${contextMenu.item}`);
-                      setContextMenu(null); // cerrar el menú
-                    }}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >
-                    {action}
-                  </li>
-                )
-              )}
-            </ul>
-          )} */}
-
-
-
-
         </nav>
       </SortableContext>
     </DndContext>

@@ -1,41 +1,42 @@
-// components/Icon.tsx
-import Image from 'next/image';
+import {
+  Info,
+  CircleCheck,
+  FileText,
+  Flag,
+  Plus,
+  PlusCircle,
+  PenLine,
+  Clipboard,
+  Copy as Duplicate,
+  Trash2 as Trash
+} from 'lucide-react';
+
+import React, { ComponentProps, JSX } from 'react';
 
 type IconProps = {
   name: string;
   size?: number;
-  alt?: string;
+  strokeWidth?: number;
   className?: string;
 };
 
-const iconMap: Record<string, string> = {
-  info: '/icons/info.svg',
-  details: '/icons/details.svg',
-  other: '/icons/other.svg',
-  ending: '/icons/ending.svg',
-  plus: '/icons/plus.svg',
-  'plus-circle': '/icons/plus-circle.svg',
-  flag: '/icons/flag.svg',
-  rename: '/icons/rename.svg',
-  copy: '/icons/copy.svg',
-  duplicate: '/icons/duplicate.svg',
-  trash: '/icons/trash.svg',
-
+const iconMap: Record<string, React.ComponentType<ComponentProps<'svg'>>> = {
+  info: Info,
+  details: FileText,
+  other: FileText,
+  ending: CircleCheck,
+  plus: Plus,
+  'plus-circle': PlusCircle,
+  flag: Flag,
+  rename: PenLine,
+  copy: Clipboard,
+  duplicate: Duplicate,
+  trash: Trash
 };
 
-export default function Icon({ name, size = 16, alt = '', className }: IconProps) {
-  const src = iconMap[name.toLowerCase()];
+export default function Icon({ name, size = 16, strokeWidth, className = '' }: IconProps) {
+  const LucideIcon = iconMap[name.toLowerCase()];
+  if (!LucideIcon) return null;
 
-  if (!src) return null;
-
-  return (
-    <Image
-      src={src}
-      alt={alt || `${name} icon`}
-      width={size}
-      height={size}
-      className={className}
-      unoptimized
-    />
-  );
+  return <LucideIcon size={size} strokeWidth={strokeWidth} className={className} />;
 }

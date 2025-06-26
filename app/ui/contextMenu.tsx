@@ -1,45 +1,48 @@
-'use client'
-
 import Icon from "./icon";
 
-export default function ContextMenu({
-  x,
-  y,
-  onSelect,
-  isOpen
-}: {
+type ContextMenuProps = {
   x: number;
   y: number;
-  onSelect: (action: string) => void;
   isOpen: boolean;
-}) {
+  onSelect: (action: string) => void;
+};
+
+const MENU_ITEMS = [
+  { name: 'Set as first page', icon: 'flag', className: 'text-primary', iconColor: 'text-blueAccent fill-blueAccent' },
+  { name: 'Rename', icon: 'rename', className: 'text-primary', iconColor: 'text-secondary' },
+  { name: 'Copy', icon: 'copy', className: 'text-primary', iconColor: 'text-secondary' },
+  { name: 'Duplicate', icon: 'duplicate', className: 'text-primary', iconColor: 'text-secondary' },
+  { divider: true },
+  { name: 'Delete', icon: 'trash', className: 'text-danger hover:bg-red-50 pb-0', iconColor: 'text-danger' }
+];
+
+export default function ContextMenu({ x, y, onSelect, isOpen }: ContextMenuProps) {
   return (
-    <div 
-    //   className="absolute w-60 bg-white border border-gray-200 shadow-xl rounded-lg z-50" box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px -1px; filter: drop-shadow(0px 1px 3px rgb(0, 0, 0, 0.4)); shadow-[0_1px_6px_-3px_rgba(0,0,0,0.1)]
-    // --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
-    // --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-    // box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    className={`absolute w-60 bg-white border border-gray-200 rounded-lg z-50
+    <div
+      className={`absolute w-60 bg-white border border-border rounded-lg z-50
     origin-top-left transform transition-all duration-150 ease-out
     ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
   `}
-      style={{ top: y, left: x , filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.05))' } }
+      style={{ top: y, left: x, filter: 'drop-shadow(var(--color-shadow))' }}
     >
-      <div className="px-4 py-3 border-b border-gray-100 text-gray-700 font-semibold text-sm">
+      <div className="p-2.5 border-b bg-menu-header-background border-border  font-semibold text-sm rounded-t-lg">
         Settings
       </div>
-      <ul className="text-sm text-gray-700">
-        <MenuItem icon={<Icon name="flag" className="w-4 h-4" />} label="Set as first page" onClick={() => onSelect('Set as first page')} />
-        <MenuItem icon={<Icon name="rename" className="w-4 h-4" />} label="Rename" onClick={() => onSelect('Rename')} />
-        <MenuItem icon={<Icon name="copy" className="w-4 h-4" />} label="Copy" onClick={() => onSelect('Copy')} />
-        <MenuItem icon={<Icon name="duplicate" className="w-4 h-4" />} label="Duplicate" onClick={() => onSelect('Duplicate')} />
-        <hr className="my-1 border-t border-gray-100" />
-        <MenuItem
-          icon={<Icon name="trash" className="w-4 h-4 text-red-500" />}
-          label="Delete"
-          onClick={() => onSelect('Delete')}
-          className="text-red-600 hover:bg-red-50"
-        />
+      <ul className="text-sm p-3 pt-1.5">
+        {MENU_ITEMS.map((item, index) =>
+          item.divider ? (
+            <hr key={`divider-${index}`} className="my-1 border-t border-border" />
+          ) : (
+            <MenuItem
+              key={index}
+              icon={<Icon name={item.icon ?? ''} className={`w-4 h-4 ${item.iconColor}`} />}
+              label={item.name ?? ''}
+              className={item.className}
+              onClick={() => onSelect(item.name!)}
+            />
+          )
+        )}
+
       </ul>
     </div>
   );
@@ -59,7 +62,7 @@ function MenuItem({
   return (
     <li
       onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-2 hover:bg-gray-50 cursor-pointer ${className}`}
+      className={`flex items-center gap-2 py-1.5 hover:bg-gray-50 cursor-pointer ${className}`}
     >
       <span className="w-4 h-4">{icon}</span>
       <span>{label}</span>
