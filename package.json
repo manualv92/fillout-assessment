@@ -10,9 +10,6 @@
   },
   "dependencies": {
     "@dnd-kit/sortable": "^10.0.0",
-    "@fortawesome/fontawesome-svg-core": "^6.7.2",
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
     "@geist-ui/core": "^2.3.8",
     "@geist-ui/react": "^2.2.5",
     "fortawesome": "^0.0.1-security",
@@ -27,7 +24,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "babel-plugin-inline-react-svg": "^2.0.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
